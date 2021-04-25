@@ -447,6 +447,14 @@ footer .footer-below {
     margin: auto;
 }*/
 
+/*
+@media (min-width: 1620px) {
+    .modal-content{
+        max-width: 60%;
+        margin: auto;
+    }
+}*/
+
 .portfolio-modal .modal-content {
     padding: 100px 0;
     min-height: 100%;

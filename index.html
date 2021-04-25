@@ -105,7 +105,7 @@
             <div class="portfolio-flex-row">
                 
                     <div class="portfolio-flex-item portfolio-item">
-                        <a href="#portfolioModal-1" class="portfolio-link" data-toggle="modal">
+                        <a href="#portfolioModal-1" class="portfolio-link" data-toggle="modal"  onclick="window.location.hash='project'">
                             <div class="caption">
                                 <div class="caption-content">
                                     <i class="fa fa-search-plus fa-3x"></i>
@@ -116,7 +116,7 @@
                     </div>
                 
                     <div class="portfolio-flex-item portfolio-item">
-                        <a href="#portfolioModal-2" class="portfolio-link" data-toggle="modal">
+                        <a href="#portfolioModal-2" class="portfolio-link" data-toggle="modal"  onclick="window.location.hash='project'">
                             <div class="caption">
                                 <div class="caption-content">
                                     <i class="fa fa-search-plus fa-3x"></i>
@@ -127,7 +127,7 @@
                     </div>
                 
                     <div class="portfolio-flex-item portfolio-item">
-                        <a href="#portfolioModal-3" class="portfolio-link" data-toggle="modal">
+                        <a href="#portfolioModal-3" class="portfolio-link" data-toggle="modal"  onclick="window.location.hash='project'">
                             <div class="caption">
                                 <div class="caption-content">
                                     <i class="fa fa-search-plus fa-3x"></i>
@@ -298,7 +298,7 @@
  
     <div class="portfolio-modal modal fade" id="portfolioModal-1" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
+            <div class="close-modal" data-dismiss="modal"  onclick="RegisterTrigger(); OnHashUpdate();">
                 <div class="lr">
                     <div class="rl">
                     </div>
@@ -330,17 +330,17 @@
                                 
                             </ul>
                             <!--button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button-->
-                            <button type="button" class="btn btn-lg btn-outline-modal" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            <button type="button" id="close-modal-button" class="btn btn-lg btn-outline-modal" data-dismiss="modal"  onclick="RegisterTrigger(); OnHashUpdate();"><i class="fa fa-times"></i> Close</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div>  
 
     <div class="portfolio-modal modal fade" id="portfolioModal-2" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
+            <div class="close-modal" data-dismiss="modal"  onclick="RegisterTrigger(); OnHashUpdate();">
                 <div class="lr">
                     <div class="rl">
                     </div>
@@ -372,17 +372,17 @@
                                 
                             </ul>
                             <!--button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button-->
-                            <button type="button" class="btn btn-lg btn-outline-modal" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            <button type="button" id="close-modal-button" class="btn btn-lg btn-outline-modal" data-dismiss="modal"  onclick="RegisterTrigger(); OnHashUpdate();"><i class="fa fa-times"></i> Close</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div>  
 
     <div class="portfolio-modal modal fade" id="portfolioModal-3" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
+            <div class="close-modal" data-dismiss="modal"  onclick="RegisterTrigger(); OnHashUpdate();">
                 <div class="lr">
                     <div class="rl">
                     </div>
@@ -414,13 +414,178 @@
                                 
                             </ul>
                             <!--button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button-->
-                            <button type="button" class="btn btn-lg btn-outline-modal" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            <button type="button" id="close-modal-button" class="btn btn-lg btn-outline-modal" data-dismiss="modal"  onclick="RegisterTrigger(); OnHashUpdate();"><i class="fa fa-times"></i> Close</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div>  
+
+
+<script>
+    let lastHash = "none"
+    let lastTrigger = -1;
+    let lastBackButtonTrigger = -1;
+    let lastCustomCloseTrigger = "-1"
+    let allModals = document.getElementsByClassName("portfolio-modal modal fade")
+
+    /*function IsModalOpen()
+    {
+        for(let i  = 0; i < allModals.length; i++)
+        {
+            if(allModals[i].style.display == 'block')
+                return true;
+        }
+
+        return false;
+    }*/
+  /* if(window.location.hash == "#main")
+        {
+            //clean up the hash
+            history.pushState(null, null, window.location.href.split('#')[0]);  
+        }*/
+
+    function RegisterTrigger()
+    {
+        lastTrigger = new Date().getTime(); 
+    }
+
+    function OnHashUpdate()
+    { 
+        if(lastBackButtonTrigger + 100 < new Date().getTime())
+        {
+            console.log("CAN GO BACK!")
+            window.history.back();
+        }
+        //window.history.back();
+
+       // lastTrigger = new Date().getTime(); 
+
+
+       /* thisTrigger = new Date().getTime();
+        if(lastTrigger != thisTrigger)
+        {
+            newHash = window.location.hash; 
+
+            console.log("NEW: " + newHash + "      LAST: " + lastHash);
+
+            if(newHash == "" && lastHash == "#project")
+            {
+                //close opened modal
+                allCloseButtons = document.getElementsByClassName("btn btn-lg btn-outline-modal")
+                for(let i = 0; i < allCloseButtons.length; i++) 
+                    allCloseButtons[i].click(); 
+            } 
+
+            if(newHash == ""  && lastHash == "")
+            { 
+                //window.history.back(); 
+            }
+
+            lastHash = newHash;
+            lastTrigger = thisTrigger;
+        }  */
+    }
+
+    function IsModalOpen()
+    {
+        for(let i  = 0; i < allModals.length; i++)
+        {
+            if(allModals[i].style.display == 'block')
+                return true;
+        }
+
+        return false;
+    }
+
+    window.onhashchange = function() 
+    {  
+        newHash = window.location.hash; 
+
+        if(lastTrigger + 100 < new Date().getTime())
+        { 
+            //either browser back button is pressed or new modal is opened!
+            //console.log("Triggered via browser back button");
+            if(IsModalOpen())
+            {
+                console.log("trigger!");
+                //triggered via the back button while a modal is opened!
+                lastBackButtonTrigger = new Date().getTime();
+                allCloseButtons = document.getElementsByClassName("btn btn-lg btn-outline-modal") 
+                for(let i  = 0; i < allModals.length; i++)
+                {
+                    if(allModals[i].style.display == 'block')
+                        allCloseButtons[i].click();
+                }
+            }
+        } 
+
+        //console.log("NEW: " + newHash + "      LAST: " + lastHash);
+
+        /*if(newHash == "" && lastHas == "#project")
+        {
+            console.log("REMOVING!!!");
+            for(let i  = 0; i < allModals.length; i++)
+            {
+                allModals[i].style.display == 'hidden';
+            }
+        }*/
+
+
+        lastHash = newHash;
+
+ 
+
+
+        /*if(lastTrigger + 1000 < new Date().getTime())
+        {
+            console.log(IsModalOpen());
+            if(IsModalOpen())
+            {
+                allCloseButtons = document.getElementsByClassName("btn btn-lg btn-outline-modal")
+                for(let i = 0; i < allCloseButtons.length; i++)
+                {
+                    allCloseButtons[i].click();
+                } 
+            }
+        }*/
+       
+
+        /*if(lastTrigger != new Date().getTime())
+        {
+            window.history.back(); 
+        }*/
+        //OnHashUpdate();
+
+       /* console.log("NEW: " + window.location.hash + "      LAST: " + lastHash  + "           M open: " + IsModalOpen());
+   
+        newHash = window.location.hash; 
+        
+        if((newHash == "" || newHash == "#main") &&  !IsModalOpen())
+        {
+            window.history.back(); 
+        }
+
+        if(newHash == "" || newHash == "#main" && lastHash == "#project")
+        {
+            //close opened modal
+            allCloseButtons = document.getElementsByClassName("btn btn-lg btn-outline-modal")
+            for(let i = 0; i < allCloseButtons.length; i++)
+            {
+                allCloseButtons[i].click();
+            } 
+        }
+
+        lastHash = newHash;
+        */
+    }
+
+    //window.addEventListener('popstate', function(event) {
+    //    console.log("trying to go back!")
+    //}, false);
+</script>
+
 
      <!-- jQuery Version 1.11.0 -->
     <script src="/js/jquery-1.11.0.js"></script>
