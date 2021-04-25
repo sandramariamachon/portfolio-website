@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom" >
+  <generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator>
+  <link href="https://github.com/jeromelachaud/freelancer-theme/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" />
+  <updated>2021-04-25T18:13:33+01:00</updated>
+  <id>https://github.com/jeromelachaud/freelancer-theme/</id>
+
+  
+    <title type="html">Sandra Machon</title>
+  
+
+  
+    <subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle>
+  
+
+  
+
+  
+  
+    <entry>
+      <title type="html">Twitter sentiment analysis</title>
+      <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" title="Twitter sentiment analysis" />
+      <published>2014-07-18T00:00:00+01:00</published>
+      <updated>2014-07-18T00:00:00+01:00</updated>
+      <id>https://github.com/jeromelachaud/freelancer-theme/Twitter%20Sentiment%20Analysis</id>
+      <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/"></content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+        <category term="&lt;a href=&quot;https://github.com/sandramariamachon/NLP_Twitter_Sentiment_Analysis&quot; target = &quot;_blank&quot;&gt;NLP Twitter Sentiment Analysis&lt;/a&gt;&lt;/li&gt;" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">Kdnuggets articles on your kindle</title>
+      <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" title="Kdnuggets articles on your kindle" />
+      <published>2014-07-15T00:00:00+01:00</published>
+      <updated>2014-07-15T00:00:00+01:00</updated>
+      <id>https://github.com/jeromelachaud/freelancer-theme/KDNuggets%20articles%20on%20your%20Kindle</id>
+      <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/"></content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+        <category term="&lt;a href=&quot;https://github.com/sandramariamachon/KDNuggets_articles_to_kindle&quot; target = &quot;_blank&quot;&gt;KDNuggets_articles_to_kindle&lt;/a&gt;&lt;/li&gt;" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">Coffee ranking dashboard</title>
+      <link href="https://github.com/jeromelachaud/freelancer-theme/" rel="alternate" type="text/html" title="Coffee ranking dashboard" />
+      <published>2014-07-15T00:00:00+01:00</published>
+      <updated>2014-07-15T00:00:00+01:00</updated>
+      <id>https://github.com/jeromelachaud/freelancer-theme/Coffee%20Ranking%20Dashboard</id>
+      <content type="html" xml:base="https://github.com/jeromelachaud/freelancer-theme/"></content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name></name>
+        
+        
+      </author>
+
+      
+        <category term="&lt;a href=&quot;https://github.com/sandramariamachon/coffee_dashboard_heroku/blob/master/README.md&quot;  target = &quot;_blank&quot;&gt;coffee_dashboard_heroku&lt;/a&gt;&lt;/li&gt;" />
+      
+
+      
+
+      
+        <summary type="html"></summary>
+      
+
+      
+      
+    </entry>
+  
+</feed>
