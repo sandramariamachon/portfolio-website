@@ -1,0 +1,163 @@
+@import "tailwindcss";
+@import url('https://fonts.cdnfonts.com/css/alta');
+@import url('https://fonts.cdnfonts.com/css/hk-grotesk');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@400;700&family=Playfair+Display:ital,wght@1,400;1,500;1,600&family=Syne:wght@400;700;800&family=Tenor+Sans&display=swap');
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url(https://assets.codepen.io/605876/GeistMonoVariableVF.ttf);
+}
+
+@theme {
+  --font-sans: "HK Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Alta", serif;
+  --font-mono: "Geist Mono", monospace;
+  --font-display: "Tenor Sans", sans-serif;
+  --font-elegant: "Playfair Display", serif;
+  --font-handwritten: "Caveat", cursive;
+  --font-bebas: "Bebas Neue", sans-serif;
+  --font-syne: "Syne", sans-serif;
+
+  --color-primary: #3b0764;
+  --color-primary-container: #f5f3ff;
+  --color-accent: #9333ea;
+  --color-secondary: #6b21a8;
+  --color-background: #fdf9f1;
+  --color-about-bg: #8D93D1;
+  --color-contact-bg: #E65901;
+  --color-footer-bg: #F3EEDB;
+  --color-on-background: #3b0764;
+  --color-on-surface-variant: #5b21b6;
+  
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-delayed: float 8s ease-in-out infinite 1s;
+  --animate-float-reverse: float 7s ease-in-out infinite reverse;
+  --animate-rotate-slow: rotate 20s linear infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(3deg); }
+  }
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply font-sans bg-background text-on-background;
+  }
+}
+
+.scalloped-path {
+  clip-path: polygon(0 20%, 10% 0, 90% 10%, 100% 20%, 95% 80%, 85% 100%, 15% 90%, 5% 80%);
+}
+
+.wavy-divider {
+  width: 100%;
+  height: 60px;
+  position: absolute;
+  top: -40px;
+  left: 0;
+  z-index: 20;
+  background-image: url("data:image/svg+xml,%3Csvg width='120' height='60' viewBox='0 0 120 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40 C 30 40 30 0 60 0 C 90 0 90 40 120 40 V 60 H 0 Z' fill='%238D93D1'/%3E%3C/svg%3E");
+  background-size: 120px 60px;
+  background-repeat: repeat-x;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+.wavy-divider-footer {
+  width: 100%;
+  height: 60px;
+  position: absolute;
+  top: -40px;
+  left: 0;
+  z-index: 20;
+  background-image: url("data:image/svg+xml,%3Csvg width='120' height='60' viewBox='0 0 120 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40 C 30 40 30 0 60 0 C 90 0 90 40 120 40 V 60 H 0 Z' fill='%23fdf9f1'/%3E%3C/svg%3E");
+  background-size: 120px 60px;
+  background-repeat: repeat-x;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+/* Menu Split & Parallax Animation */
+.Menu-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.Menu-list-item {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  transition: opacity 0.3s ease;
+}
+
+.Menu-list-item::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: -10%;
+  right: -10%;
+  height: 2px;
+  border-radius: 2px;
+  margin-top: -1px;
+  background: white;
+  transform: scaleX(0);
+  transition: transform .6s cubic-bezier(.16,1.08,.38,.98);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.Menu-list-item:hover::before {
+  transform: scaleX(1);
+}
+
+.Mask {
+  display: block;
+  position: absolute;
+  overflow: hidden;
+  color: inherit;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  transition: all .6s cubic-bezier(.16,1.08,.38,.98);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.Mask span {
+  display: block;
+  width: 100%;
+}
+
+.Mask + .Mask {
+  top: 49.5%;
+  height: 50.5%;
+}
+
+.Mask + .Mask span {
+  transform: translateY(-50%);
+}
+
+.Menu-list-item:hover .Mask {
+  opacity: 1;
+  transform: skewX(1deg) translateX(1px);
+}
+
+.Menu-list-item:hover .Mask + .Mask {
+  transform: skewX(1deg) translateX(-1px);
+}
+
+.Menu-list-item:hover .original-text {
+  opacity: 0;
+}
