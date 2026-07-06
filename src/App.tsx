@@ -1173,7 +1173,7 @@ const HomePage = () => {
                   </TiltCard>
                 </motion.div>
               </a>
-              turn messy data into insights
+              help startups and product teams turn data
               <a href="#work" className="inline-flex items-center align-middle mx-2 sm:mx-4 group/tools">
                   <motion.div
                     initial={{ scale: 0, opacity: 0 }}
@@ -1191,7 +1191,7 @@ const HomePage = () => {
                     </TiltCard>
                   </motion.div>
               </a>
-              and AI tools
+              into ML models, AI tools, and insights
             </motion.h1>
           </div>
         </section>
