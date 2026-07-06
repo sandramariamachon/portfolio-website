@@ -43,7 +43,7 @@ const IMAGES = {
 
 const projects = [
   {
-    id: "big-shake",
+    id: "battery-life-prediction",
     title: "Battery Life Prediction",
     category: "Python, ML, SQL, Predictive Modelling",
     description: "Evaluating machine learning pipelines to estimate remaining user sessions from hardware telemetry and battery wear patterns.",
@@ -59,7 +59,7 @@ const projects = [
     bgColor: "bg-[#F9F5F6]"
   },
   {
-    id: "transparent-things",
+    id: "text-OCR",
     title: "Text Extraction With OCR and AI",
     category: "OCR, Multimodal AI, GCP",
     description: "Explored OCR and multimodal AI methods to automatically extract volume, date, and time from milk bag labels.",
@@ -75,7 +75,7 @@ const projects = [
     bgColor: "bg-[#E6EAEB]"
   },
   {
-    id: "phantom-limb",
+    id: "CPI",
     title: "Cultural Power Index",
     category: "Data Analysis, Statistical Modelling, LLM",
     description: "Created a multi-source data transformation and scoring pipeline to quantify brand cultural relevance across markets.",
@@ -91,7 +91,7 @@ const projects = [
     bgColor: "bg-[#F1EEF4]"
   },
   {
-    id: "sentiment-sphere",
+    id: "user-segmentation",
     title: "User Behaviour Segmentation",
     category: "Clustering, Feature Engineering, Big Data",
     description: "Used unsupervised machine learning to segment users by smart device interaction patterns.",
@@ -107,7 +107,7 @@ const projects = [
     bgColor: "bg-[#FDF2F2]"
   },
   {
-    id: "retail-ai",
+    id: "chatbot",
     title: "Customer Review ChatBot",
     category: "LLM, RAG, Text Preprocessing",
     description: "GenAI chatbot that let marketing team upload customer reviews, ask natural language questions and uncover pain points.",
@@ -123,7 +123,7 @@ const projects = [
     bgColor: "bg-[#F0FDF4]"
   },
   {
-    id: "echo-systems",
+    id: "nlp-review",
     title: "Customer Review Sentiment Analysis With NLP",
     category: "NLP, Sentiment Analysis, NLTK",
     description: "Analysed customer reviews with NLP techniques to classify sentiment.",
@@ -1275,7 +1275,7 @@ const HomePage = () => {
                     transition={{ delay: 0.2 }}
                     className="text-[22px] md:text-[26px] text-white font-sans leading-relaxed tracking-tight"
                   >
-                    I’m a freelance Data Scientist focused on building data products that solve real problems.
+                    I’m a Freelance Data Scientist who works with messy, real-world data and turns it into useful algorithms, insights and LLM tools.
                   </motion.p>
                   
                   <motion.div 
@@ -1286,7 +1286,7 @@ const HomePage = () => {
                     className="space-y-6"
                   >
                     <p className="text-[18px] md:text-[20px] text-white leading-relaxed">
-                      I use machine learning, statistical modelling, NLP, and Large Language Models (LLMs) to turn messy data into practical tools and clear insights. My experience spans sensor data, connected devices, research datasets, and AI automation. Whether I’m building a prediction model or a GenAI tool, my goal is the same: make data useful, reliable, and actionable. I primarily work with UK and European clients, and I’m open to remote projects with teams around the world.
+                      My experience spans sensor data, connected devices, research datasets, and AI automation. Whether I’m building a prediction model or a GenAI tool, my goal is the same: make data useful, reliable, and actionable. I primarily work with UK and European clients, and I’m open to remote projects with teams around the world!
                     </p>
                     
                     <div className="grid grid-cols-2 gap-8 pt-8 border-t border-white/20">
