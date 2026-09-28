@@ -18,7 +18,7 @@ class TouchTexture {
   constructor() {
     this.size = 64;
     this.width = this.height = this.size;
-    this.maxAge = 64;
+    this.maxAge = 32; // Same trail lifetime with the background capped at 30fps.
     this.radius = 0.25 * this.size;
     this.speed = 1 / this.maxAge;
     this.trail = [];
@@ -34,9 +34,11 @@ class TouchTexture {
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.texture = new THREE.Texture(this.canvas);
+    this.texture.needsUpdate = true;
   }
 
   update() {
+    if (this.trail.length === 0) return;
     this.clear();
     let speed = this.speed;
     for (let i = this.trail.length - 1; i >= 0; i--) {
@@ -308,8 +310,9 @@ const LiquidGradient: React.FC<LiquidGradientProps> = ({ variant = 'schema1', cl
     scene.background = new THREE.Color(0x0a0e27); // Dark navy base
     
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    // A full-screen shader has no geometric edges that need multisampling.
+    const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(container.clientWidth, container.clientHeight);
     container.appendChild(renderer.domElement);
 
@@ -350,62 +353,87 @@ const LiquidGradient: React.FC<LiquidGradientProps> = ({ variant = 'schema1', cl
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
-    // Event Handlers
-    const handleMouseMove = (e: MouseEvent) => {
-      touchTexture.addTouch({
-        x: e.clientX / window.innerWidth,
-        y: 1 - e.clientY / window.innerHeight
-      });
+    let visible = false;
+    let animationFrameId = 0;
+    let lastDrawAt = 0;
+    let pendingPointer: { x: number; y: number } | null = null;
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const canRender = () => visible && !document.hidden;
+
+    const handlePointerMove = (event: PointerEvent) => {
+      if (!canRender() || motionPreference.matches) return;
+      // Coalesce high-frequency pointer events and avoid layout reads in them.
+      pendingPointer = { x: event.clientX, y: event.clientY };
     };
 
-    const handleTouchMove = (e: TouchEvent) => {
-      const touch = e.touches[0];
-      touchTexture.addTouch({
-        x: touch.clientX / window.innerWidth,
-        y: 1 - touch.clientY / window.innerHeight
-      });
+    const draw = (now: number) => {
+      animationFrameId = 0;
+      if (!canRender()) return;
+      // These slow decorative gradients do not need to compete with scrolling
+      // and interactive elements for a full 60/120Hz GPU render loop.
+      if (!lastDrawAt || now - lastDrawAt >= 1000 / 30 - 1) {
+        uniforms.uTime.value += lastDrawAt ? Math.min((now - lastDrawAt) / 1000, 0.1) : 0;
+        lastDrawAt = now;
+        if (pendingPointer) {
+          const bounds = container.getBoundingClientRect();
+          const px = pendingPointer.x - bounds.left;
+          const py = pendingPointer.y - bounds.top;
+          if (px >= 0 && py >= 0 && px <= bounds.width && py <= bounds.height) {
+            touchTexture.addTouch({ x: px / bounds.width, y: 1 - py / bounds.height });
+          }
+          pendingPointer = null;
+        }
+        touchTexture.update();
+        renderer.render(scene, camera);
+      }
+      if (!motionPreference.matches) animationFrameId = requestAnimationFrame(draw);
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('touchmove', handleTouchMove);
+    const syncAnimation = () => {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = 0;
+      lastDrawAt = 0;
+      pendingPointer = null;
+      touchTexture.last = null;
+      if (canRender()) animationFrameId = requestAnimationFrame(draw);
+    };
 
     const handleResize = () => {
       const width = container.clientWidth;
       const height = container.clientHeight;
+      if (width === uniforms.uResolution.value.x && height === uniforms.uResolution.value.y) return;
       renderer.setSize(width, height);
       uniforms.uResolution.value.set(width, height);
+      syncAnimation();
     };
-
-    window.addEventListener('resize', handleResize);
-
-    // Animation Loop
-    const clock = new THREE.Clock();
-    let animationFrameId: number;
-
-    const animate = () => {
-      const delta = clock.getDelta();
-      touchTexture.update();
-      uniforms.uTime.value += delta;
-      
-      renderer.render(scene, camera);
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    animate();
+    const intersectionObserver = new IntersectionObserver(([entry]) => {
+      if (visible === entry.isIntersecting) return;
+      visible = entry.isIntersecting;
+      syncAnimation();
+    });
+    intersectionObserver.observe(container);
+    const resizeObserver = new ResizeObserver(handleResize);
+    resizeObserver.observe(container);
+    window.addEventListener('pointermove', handlePointerMove, { passive: true });
+    document.addEventListener('visibilitychange', syncAnimation);
+    motionPreference.addEventListener('change', syncAnimation);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('resize', handleResize);
+      intersectionObserver.disconnect();
+      resizeObserver.disconnect();
+      window.removeEventListener('pointermove', handlePointerMove);
+      document.removeEventListener('visibilitychange', syncAnimation);
+      motionPreference.removeEventListener('change', syncAnimation);
       cancelAnimationFrame(animationFrameId);
       renderer.dispose();
       geometry.dispose();
       material.dispose();
+      touchTexture.texture.dispose();
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
     };
-  }, []);
+  }, [variant]);
 
   return (
     <div 

@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useMotionTemplate, useSpring, useMotionValue } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useTransform, useMotionTemplate, useSpring, useMotionValue, useReducedMotion } from 'motion/react';
 import { Linkedin, Mail, MessageSquare, ArrowRight, Menu, X, ArrowLeft, ExternalLink, Cpu, BarChart3, BrainCircuit, Feather, HeartPulse, Sparkles, Globe } from 'lucide-react';
 import { BrowserRouter, Routes, Route, Link, useParams, useNavigate, useLocation } from 'react-router-dom';
-import gsap from 'gsap';
 import LiquidGradient from './components/LiquidGradient';
+import WorkIndex from './components/WorkIndex';
+import FrelaPet from './components/FrelaPet';
 import portraitImage from './assets/images/regenerated_image_1778511595814.png';
 import aboutPortraitImage from './assets/images/sandra-machon-portrait.jpg';
 import aiToolsHeroImage from './assets/images/regenerated_image_1781797455425.jpg';
@@ -209,7 +210,7 @@ const FemtechPage = () => {
         <div className="max-w-7xl mx-auto px-6 h-full flex items-center">
           <button 
             onClick={() => navigate('/')}
-            className="group flex items-center gap-2 font-bold text-primary hover:text-white transition-all bg-white hover:bg-[#fa709a] border border-[#fa709a]/30 shadow-[0_4px_15px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_20px_rgba(250,112,154,0.4)] px-5 py-2.5 rounded-full hover:scale-[1.03] active:scale-95 duration-300"
+            className="group flex items-center gap-2 font-semibold text-primary hover:text-white transition-all bg-white hover:bg-[#fa709a] border border-[#fa709a]/30 shadow-[0_4px_15px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_20px_rgba(250,112,154,0.4)] px-5 py-2.5 rounded-full hover:scale-[1.03] active:scale-95 duration-300"
           >
             <ArrowLeft className="w-4 h-4" /> Home
           </button>
@@ -227,10 +228,10 @@ const FemtechPage = () => {
                   <motion.h1 
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-6xl md:text-[100px] font-light text-white leading-[0.9] tracking-tighter"
+                    className="page-headline text-white"
                   >
                     Advancing <br />
-                    <span className="font-elegant italic">Femtech</span> <br />
+                    <span className="font-sans">Femtech</span> <br />
                     with Data & AI
                   </motion.h1>
                 </div>
@@ -238,7 +239,7 @@ const FemtechPage = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="text-xl md:text-2xl text-white/80 max-w-xl font-sans font-light leading-relaxed"
+                  className="text-xl md:text-2xl text-white/80 max-w-xl font-sans font-normal leading-relaxed"
                 >
                   Building practical data products, AI tools, and insights for women’s health teams. 
                 </motion.p>
@@ -273,7 +274,7 @@ const FemtechPage = () => {
             <div className="space-y-6">
               <div className="space-y-8">
                 <div className="p-8 md:p-10 bg-gradient-to-br from-[#fa709a]/5 to-[#fee140]/5 rounded-[32px] border border-[#fa709a]/10 space-y-4">
-                  <p className="text-2xl md:text-3xl font-bold font-syne text-primary leading-snug">
+                  <p className="text-2xl md:text-3xl font-semibold font-sans text-primary leading-snug">
                     Women spend <span className="text-[#fa709a]">25% more</span> of their lives in poor health than men.
                   </p>
                   <p className="text-lg md:text-xl text-primary/70 font-sans leading-relaxed">
@@ -291,7 +292,7 @@ const FemtechPage = () => {
                     I then spent almost three years at <strong>Elvie, a fast-growing FemTech startup</strong>, where I worked on data science and AI solutions across product analytics, user behaviour, customer insights, and smart device data.
                   </p>
                   <p>
-                    I also <strong>co-founded <a href="https://femtechpo.pl" target="_blank" rel="noreferrer" className="text-[#fa709a] underline hover:opacity-80 transition-opacity">FemTech po Polsku</a></strong>, a platform popularising FemTech in Poland and Central and Eastern Europe through education, community, LinkedIn content, and podcast conversations.
+                    I also <strong>co-founded <a href="https://joinpoppy.pl" target="_blank" rel="noreferrer" className="text-[#fa709a] underline hover:opacity-80 transition-opacity">Poppy Project</a></strong>, a platform popularising FemTech in Poland and Central and Eastern Europe through education, community, LinkedIn content, and podcast conversations.
                   </p>
                   <p>
                     This combination gives me both technical expertise and deep domain knowledge in FemTech, women’s health, and consumer health technology.
@@ -305,15 +306,15 @@ const FemtechPage = () => {
                 <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm">
                   <Globe className="w-6 h-6 text-[#fa709a]" />
                 </div>
-                <h3 className="text-2xl font-bold font-syne text-primary">Femtech Po Polsku</h3>
+                <h3 className="text-2xl font-semibold font-sans text-primary">Poppy Project</h3>
                 <p className="text-primary/70 font-sans leading-relaxed">
                   Building the central hub for the Polish femtech community, offering insights, market analysis, and networking opportunities for startups and health professionals.
                 </p>
                 <a 
-                  href="https://femtechpo.pl" 
+                  href="https://joinpoppy.pl"
                   target="_blank" 
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 font-bold text-primary hover:gap-3 transition-all pt-2"
+                  className="inline-flex items-center gap-2 font-semibold text-primary hover:gap-3 transition-all pt-2"
                 >
                   Visit Platform <ExternalLink className="w-4 h-4" />
                 </a>
@@ -323,13 +324,13 @@ const FemtechPage = () => {
                 <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center">
                   <Sparkles className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold font-syne">Work With Me</h3>
+                <h3 className="text-2xl font-semibold font-sans">Work With Me</h3>
                 <p className="text-white/70 font-sans leading-relaxed">
                   I love to collaborate in FemTech projects where data can play a transformative role!
                 </p>
                 <a 
                   href="mailto:machonsm@gmail.com" 
-                  className="inline-flex items-center gap-2 font-bold hover:gap-3 transition-all pt-2"
+                  className="inline-flex items-center gap-2 font-semibold hover:gap-3 transition-all pt-2"
                 >
                   Let's collaborate <ArrowRight className="w-4 h-4" />
                 </a>
@@ -343,8 +344,8 @@ const FemtechPage = () => {
 
       <footer className="bg-[#fdf9f1] py-12 px-6 border-t border-black/5">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="font-bebas text-2xl tracking-wider text-primary">Sandra Machon</div>
-          <div className="text-[10px] uppercase tracking-[0.3em] text-primary/40 font-syne font-bold">
+          <div className="font-sans font-medium text-2xl tracking-tight text-primary">Sandra Machon</div>
+          <div className="text-[11px] uppercase tracking-[0.12em] text-primary/40 font-sans font-semibold">
             © {new Date().getFullYear()} Femtech Advocacy
           </div>
         </div>
@@ -376,10 +377,10 @@ const ProjectPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center p-8 text-center bg-background">
         <div className="space-y-6">
-          <h1 className="text-4xl font-black text-on-background">Project Not Found</h1>
+          <h1 className="text-4xl font-semibold text-on-background">Project Not Found</h1>
           <button 
             onClick={() => navigate('/#work')}
-            className="flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-full font-bold hover:scale-105 transition-all"
+            className="flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-full font-semibold hover:scale-105 transition-all"
           >
             <ArrowLeft className="w-5 h-5" /> Back to Home
           </button>
@@ -403,7 +404,7 @@ const ProjectPage = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             onClick={() => navigate('/#work')}
-            className="self-start flex items-center gap-2 font-bold text-white bg-white/10 border border-white/20 hover:bg-white hover:text-primary backdrop-blur-md px-5 py-2.5 rounded-full shadow-sm text-sm transition-all duration-300 hover:scale-105 hover:shadow-md"
+            className="self-start flex items-center gap-2 font-semibold text-white bg-white/10 border border-white/20 hover:bg-white hover:text-primary backdrop-blur-md px-5 py-2.5 rounded-full shadow-sm text-sm transition-all duration-300 hover:scale-105 hover:shadow-md"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Projects
           </motion.button>
@@ -412,7 +413,7 @@ const ProjectPage = () => {
             <motion.span 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-xs md:text-sm font-bold tracking-[0.2em] uppercase text-[#eae2e9] block"
+              className="text-xs md:text-sm font-semibold tracking-[0.12em] uppercase text-[#eae2e9] block"
             >
               {project.category}
             </motion.span>
@@ -420,7 +421,7 @@ const ProjectPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-4xl md:text-7xl font-bold font-syne text-white tracking-tight"
+              className="project-headline text-white"
             >
               {project.title}
             </motion.h1>
@@ -433,10 +434,10 @@ const ProjectPage = () => {
         
         {/* Overview Row */}
         <section className="space-y-4">
-          <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#fa709a]">01 / Overview</div>
+          <div className="text-xs font-semibold uppercase tracking-[0.12em] text-[#fa709a]">01 / Overview</div>
           <div className="space-y-6">
             {project.overview.split('\n\n').map((para, idx) => (
-              <p key={idx} className="text-2xl md:text-3xl font-light text-primary/95 font-sans leading-relaxed tracking-tight">
+              <p key={idx} className={`font-normal text-primary/95 font-sans leading-relaxed ${idx === 0 ? 'text-xl md:text-2xl tracking-tight' : 'text-lg'}`}>
                 {para}
               </p>
             ))}
@@ -448,8 +449,8 @@ const ProjectPage = () => {
         {/* Problem & My Role Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <section className="space-y-4">
-            <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#fa709a]">02 / The Problem</div>
-            <h3 className="text-xl font-bold font-syne text-primary">Challenge & Needs</h3>
+            <div className="text-xs font-semibold uppercase tracking-[0.12em] text-[#fa709a]">02 / The Problem</div>
+            <h3 className="text-xl font-semibold font-sans text-primary">Challenge & Needs</h3>
             <div className="space-y-4">
               {project.problem.split('\n\n').map((para, idx) => {
                 if (para.includes('\n•') || para.trim().startsWith('•') || para.trim().startsWith('-')) {
@@ -485,8 +486,8 @@ const ProjectPage = () => {
           </section>
 
           <section className="space-y-4">
-            <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#fa709a]">03 / My Role</div>
-            <h3 className="text-xl font-bold font-syne text-primary">Contributions</h3>
+            <div className="text-xs font-semibold uppercase tracking-[0.12em] text-[#fa709a]">03 / My Role</div>
+            <h3 className="text-xl font-semibold font-sans text-primary">Contributions</h3>
             <div className="space-y-4">
               {project.myRole.split('\n\n').map((para, idx) => {
                 if (para.includes('\n•') || para.trim().startsWith('•') || para.trim().startsWith('-')) {
@@ -514,7 +515,7 @@ const ProjectPage = () => {
                 }
                 const isRoleTitle = idx === 0 && para.trim().length < 80;
                 return (
-                  <p key={idx} className={`${isRoleTitle ? "font-bold text-lg text-primary" : "text-primary/80"} font-sans leading-relaxed text-[17px]`}>
+                  <p key={idx} className={`${isRoleTitle ? "font-semibold text-lg text-primary" : "text-primary/80"} font-sans leading-relaxed text-[17px]`}>
                     {para}
                   </p>
                 );
@@ -527,9 +528,9 @@ const ProjectPage = () => {
 
         {/* Approach Section */}
         <section className="space-y-6">
-          <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#fa709a]">04 / Approach</div>
+          <div className="text-xs font-semibold uppercase tracking-[0.12em] text-[#fa709a]">04 / Approach</div>
           <div className="space-y-4">
-            <h3 className="text-2xl md:text-3xl font-bold font-syne text-primary tracking-tight">Strategy & Engineering</h3>
+            <h3 className="text-2xl md:text-3xl font-semibold font-sans text-primary tracking-tight">Strategy & Engineering</h3>
             <div className="space-y-6">
               {project.approach.split('\n\n').map((para, idx) => (
                 <p key={idx} className="text-primary/80 font-sans leading-relaxed text-lg">
@@ -544,12 +545,12 @@ const ProjectPage = () => {
 
         {/* Tools Used Pills */}
         <section className="space-y-4">
-          <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#fa709a]">05 / Tools Used</div>
+          <div className="text-xs font-semibold uppercase tracking-[0.12em] text-[#fa709a]">05 / Tools Used</div>
           <div className="flex flex-wrap gap-2.5">
             {project.toolsUsed.map((tool, idx) => (
               <span 
                 key={idx} 
-                className="px-4 py-2 bg-white border border-black/10 rounded-full text-xs font-mono font-medium text-primary shadow-sm"
+                className="px-4 py-2 bg-white border border-black/10 rounded-full text-xs font-sans font-medium text-primary shadow-sm"
               >
                 {tool}
               </span>
@@ -561,8 +562,8 @@ const ProjectPage = () => {
 
         {/* Outcome Row */}
         <section className="p-8 md:p-12 bg-primary rounded-[40px] text-white relative overflow-hidden group space-y-4 shadow-xl">
-          <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/60 relative z-10">06 / Outcome</div>
-          <h3 className="text-3xl font-bold font-syne relative z-10">Direct Business Impact</h3>
+          <div className="text-xs font-semibold uppercase tracking-[0.12em] text-white/60 relative z-10">06 / Outcome</div>
+          <h3 className="text-3xl font-semibold font-sans relative z-10">Direct Business Impact</h3>
           <div className="space-y-6 relative z-10 max-w-2xl">
             {project.outcome.split('\n\n').map((para, idx) => {
               const isQuote = para.trim().startsWith('“') || para.trim().startsWith('"');
@@ -571,8 +572,8 @@ const ProjectPage = () => {
                   key={idx} 
                   className={`font-sans leading-relaxed text-lg ${
                     isQuote 
-                      ? 'text-[#fdf9f1] font-serif italic text-xl border-l-[3px] border-[#fa709a] pl-4 my-6 font-medium bg-white/5 py-3 pr-4 rounded-r-md' 
-                      : 'text-white/90 font-light'
+                      ? 'text-[#fdf9f1] font-sans italic text-xl border-l-[3px] border-[#fa709a] pl-4 my-6 font-normal bg-white/5 py-3 pr-4 rounded-r-md'
+                      : 'text-white/90 font-normal'
                   }`}
                 >
                   {para}
@@ -588,12 +589,12 @@ const ProjectPage = () => {
           <>
             <div className="h-[1px] bg-black/10 w-full" />
             <section className="space-y-6">
-              <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#fa709a]">07 / Selected Publications</div>
-              <h3 className="text-2xl font-bold font-syne text-primary tracking-tight">Research Bibliography</h3>
+              <div className="text-xs font-semibold uppercase tracking-[0.12em] text-[#fa709a]">07 / Selected Publications</div>
+              <h3 className="text-2xl font-semibold font-sans text-primary tracking-tight">Research Bibliography</h3>
               <div className="space-y-4">
                 {project.bibliography.map((pub, idx) => (
                   <div key={idx} className="flex gap-4 p-5 bg-primary/[0.03] rounded-2xl border border-primary/5 shadow-sm hover:border-[#fa709a]/20 transition-all duration-300">
-                    <span className="text-xs font-mono font-bold text-[#fa709a] p-1.5 bg-white border border-[#fa709a]/10 rounded-lg shrink-0 h-fit self-start shadow-sm leading-none">
+                    <span className="text-xs font-sans font-semibold text-[#fa709a] p-1.5 bg-white border border-[#fa709a]/10 rounded-lg shrink-0 h-fit self-start shadow-sm leading-none">
                       [{idx + 1}]
                     </span>
                     <p className="text-primary/90 font-sans text-base leading-relaxed">
@@ -613,17 +614,17 @@ const ProjectPage = () => {
       {/* Footer Contact Redirect */}
       <div className="bg-[#8D93D1]/10 py-16 px-6 border-t border-black/5 text-center mt-12">
         <div className="max-w-xl mx-auto space-y-6">
-          <h3 className="text-2xl font-bold font-syne text-primary">Need a tailored data or ML solution on your next project?</h3>
+          <h3 className="text-2xl font-semibold font-sans text-primary">Need a tailored data or ML solution on your next project?</h3>
           <div className="flex justify-center gap-4">
             <button 
               onClick={() => navigate('/#work')}
-              className="px-6 py-3 border border-primary/20 hover:border-primary/50 text-primary rounded-full font-bold text-sm transition-colors bg-white shadow-sm"
+              className="px-6 py-3 border border-primary/20 hover:border-primary/50 text-primary rounded-full font-semibold text-sm transition-colors bg-white shadow-sm"
             >
               Back to Home
             </button>
             <a 
               href="mailto:machonsm@gmail.com" 
-              className="px-6 py-3 bg-primary text-white rounded-full font-bold text-sm hover:scale-105 transition-all shadow-md inline-block"
+              className="px-6 py-3 bg-primary text-white rounded-full font-semibold text-sm hover:scale-105 transition-all shadow-md inline-block"
             >
               Get in Touch
             </a>
@@ -759,162 +760,6 @@ const Particle = ({ mouseX, mouseY, color, size, stiffness, damping }: {
   );
 };
 
-interface ProjectRowProps {
-  project: {
-    id: string;
-    title: string;
-    category: string;
-    description: string;
-    image: string;
-    hoverImage?: string;
-    bgColor: string;
-  };
-  index: number;
-}
-
-const ProjectRow: React.FC<ProjectRowProps> = ({ project, index }) => {
-  const navigate = useNavigate();
-  const [isHovered, setIsHovered] = useState(false);
-  const itemRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseEnter = (e: React.MouseEvent) => {
-    setIsHovered(true);
-    const event = new CustomEvent('project-hover', { 
-      detail: { image: project.hoverImage || project.image, active: true } 
-    });
-    window.dispatchEvent(event);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    const event = new CustomEvent('project-hover', { 
-      detail: { active: false } 
-    });
-    window.dispatchEvent(event);
-  };
-
-  return (
-    <motion.div
-      ref={itemRef}
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: index * 0.1 }}
-      viewport={{ once: true }}
-      className="relative border-b border-black py-10 md:py-20 group cursor-pointer md:cursor-none project-item-reveal"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={() => navigate(`/project/${project.id}`)}
-    >
-      <div className="flex flex-row items-center justify-between gap-4 md:gap-12 relative z-10 px-4 md:px-0">
-        <div className="flex items-center gap-4 md:gap-20 flex-grow">
-          <span className="font-syne text-sm md:text-xl text-primary/40 transition-colors duration-300 group-hover:text-[#E65901]">
-            0{index + 1}
-          </span>
-          <div className="project-info">
-            <h3 
-              className="text-2xl md:text-[60px] font-bold font-syne text-primary leading-tight tracking-tighter transition-all duration-500 group-hover:text-transparent translate-x-0 group-hover:translate-x-4" 
-              style={{ WebkitTextStroke: isHovered ? '1px #3b0764' : '0px transparent' }}
-            >
-              {project.title}
-            </h3>
-            <p className="hidden md:block font-sans text-sm md:text-lg text-primary/70 mt-4 max-w-xl opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-0 group-hover:translate-x-4 line-clamp-2">
-              {project.description}
-            </p>
-          </div>
-        </div>
-        
-        <div className="flex items-center justify-end gap-8 shrink-0">
-          <span className="hidden lg:block text-[10px] font-bold tracking-[0.2em] text-primary bg-primary/5 border border-primary/10 px-4 py-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-4 group-hover:translate-x-0">
-            {project.category}
-          </span>
-          <div className="text-2xl md:text-5xl transition-transform duration-500 group-hover:-rotate-45 group-hover:text-[#E65901]">
-            <ArrowRight className="w-6 h-6 md:w-12 md:h-12" />
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
-const CustomProjectCursor = ({ containerRef }: { containerRef: React.RefObject<HTMLDivElement> }) => {
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const revealRef = useRef<HTMLDivElement>(null);
-  const revealImgRef = useRef<HTMLImageElement>(null);
-  const [activeImage, setActiveImage] = useState<string | null>(null);
-  const [isActive, setIsActive] = useState(false);
-
-  useEffect(() => {
-    const cursor = cursorRef.current;
-    const reveal = revealRef.current;
-    const revealImg = revealImgRef.current;
-
-    if (!cursor || !reveal || !revealImg) return;
-
-    const xTo = gsap.quickTo(cursor, "x", { duration: 0.2, ease: "power3.out" });
-    const yTo = gsap.quickTo(cursor, "y", { duration: 0.2, ease: "power3.out" });
-
-    const revealXTo = gsap.quickTo(reveal, "x", { duration: 0.5, ease: "power3.out" });
-    const revealYTo = gsap.quickTo(reveal, "y", { duration: 0.5, ease: "power3.out" });
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      
-      xTo(x);
-      yTo(y);
-      revealXTo(x);
-      revealYTo(y);
-    };
-
-    const handleProjectHover = (e: any) => {
-      const { image, active } = e.detail;
-      if (active) {
-        setActiveImage(image);
-        setIsActive(true);
-        gsap.to(reveal, { opacity: 0.6, scale: 1, duration: 0.4, ease: "power2.out" });
-        gsap.fromTo(revealImg, { scale: 1.4 }, { scale: 1, duration: 0.4 });
-        gsap.to(cursor, { scale: 4, opacity: 1, duration: 0.2 });
-      } else {
-        setIsActive(false);
-        gsap.to(reveal, { opacity: 0, scale: 0.8, duration: 0.3, ease: "power2.out" });
-        gsap.to(cursor, { scale: 1, opacity: 0, duration: 0.2 });
-      }
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("project-hover", handleProjectHover as EventListener);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("project-hover", handleProjectHover as EventListener);
-    };
-  }, []);
-
-  return (
-    <>
-      <div 
-        ref={cursorRef} 
-        className="absolute top-0 left-0 w-5 h-5 bg-primary rounded-full pointer-events-none z-[999] -translate-x-1/2 -translate-y-1/2 mix-blend-difference hidden lg:block opacity-0"
-      />
-      <div 
-        ref={revealRef} 
-        className="absolute top-0 left-0 w-[240px] h-[320px] pointer-events-none z-[1] opacity-0 -translate-x-1/2 -translate-y-1/2 overflow-hidden hidden lg:block"
-      >
-        <div className="w-full h-full relative overflow-hidden">
-          <img 
-            ref={revealImgRef}
-            src={activeImage || undefined} 
-            className="w-full h-full object-cover" 
-            alt="Project Preview" 
-            referrerPolicy="no-referrer"
-          />
-        </div>
-      </div>
-    </>
-  );
-};
 
 const TiltCard = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => {
   const x = useMotionValue(0);
@@ -1059,10 +904,63 @@ const SplitTextMenu = ({
   );
 };
 
+const heroOutcomes = ['AI tools', 'ML models', 'actionable insights', 'dashboards', 'working prototypes'];
+
+const HeroHeadline = () => {
+  const reducedMotion = useReducedMotion();
+  const [outcomeIndex, setOutcomeIndex] = useState(0);
+
+  useEffect(() => {
+    if (reducedMotion) return;
+    const timer = window.setInterval(() => {
+      if (!document.hidden) setOutcomeIndex(index => (index + 1) % heroOutcomes.length);
+    }, 3500);
+    return () => window.clearInterval(timer);
+  }, [reducedMotion]);
+
+  return (
+    <div className="hero-headline-wrap">
+      <motion.h1
+        initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="hero-headline"
+      >
+        I{' '}
+        <a href="#about" className="hero-inline-media hero-portrait" aria-label="About Sandra">
+          <img src={IMAGES.PORTRAIT} alt="" width="160" height="160" />
+        </a>{' '}
+        help startups turn data{' '}
+        <a href="#work" className="hero-inline-media hero-project-preview" aria-label="Explore my projects">
+          <img src={IMAGES.AI_TOOLS} alt="" width="240" height="160" />
+        </a>{' '}
+        into{' '}
+        <span className="sr-only">AI tools, ML models, actionable insights, dashboards and working prototypes</span>
+        <span className="hero-outcomes" aria-hidden="true">
+          {heroOutcomes.map(outcome => (
+            <span key={outcome} className="hero-outcome-size">{outcome}</span>
+          ))}
+          <AnimatePresence initial={false}>
+            <motion.span
+              key={reducedMotion ? 'static' : outcomeIndex}
+              className="hero-outcome"
+              initial={reducedMotion ? false : { opacity: 0, scale: 0.82, filter: 'blur(12px)' }}
+              animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, scale: reducedMotion ? 1 : 1.16, filter: reducedMotion ? 'blur(0px)' : 'blur(12px)' }}
+              transition={{ duration: reducedMotion ? 0 : 0.65, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {heroOutcomes[reducedMotion ? 0 : outcomeIndex]}
+            </motion.span>
+          </AnimatePresence>
+        </span>
+      </motion.h1>
+    </div>
+  );
+};
+
 const HomePage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-  const workSectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (location.hash) {
@@ -1079,15 +977,15 @@ const HomePage = () => {
       <GrainyOverlay />
       <header className="absolute top-0 left-0 w-full z-50 bg-transparent h-16 md:h-20">
         <div className="max-w-[1400px] w-full h-full mx-auto px-6 md:px-8 flex justify-between items-center relative">
-          <a href="#about" className="font-bebas text-xl md:text-2xl tracking-wider text-white shrink-0 font-normal uppercase group/name relative">
+          <a href="#about" className="font-sans text-lg md:text-xl tracking-tight text-white shrink-0 font-medium group/name relative">
             Sandra Machon
             <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/name:w-full"></span>
           </a>
           
           <nav className="absolute left-1/2 -translate-x-1/2 hidden xl:flex items-center">
             <SplitTextMenu 
-              containerClassName="!flex-row gap-10 !text-lg"
-              itemClassName="font-bebas tracking-wider text-white"
+              containerClassName="!flex-row gap-10 !text-sm"
+              itemClassName="font-sans font-medium tracking-normal text-white"
               items={[
                 { name: 'Work', href: '#work' },
                 { name: 'About', href: '#about' },
@@ -1130,7 +1028,7 @@ const HomePage = () => {
             <nav className="flex flex-col gap-6 items-center justify-center h-full text-center">
               <SplitTextMenu 
                 containerClassName="gap-8"
-                itemClassName="text-4xl md:text-6xl font-bebas text-white uppercase tracking-wider block mb-2"
+                itemClassName="text-4xl md:text-6xl font-sans font-normal text-white tracking-tight block mb-2"
                 onItemClick={() => setIsMenuOpen(false)}
                 items={[
                   { name: 'Work', href: '#work' },
@@ -1160,73 +1058,28 @@ const HomePage = () => {
         <section className="bg-background relative overflow-hidden flex flex-col items-center justify-center h-screen min-h-[600px]">
           <LiquidGradient variant="schema1" />
           
-          <div className="max-w-4xl mx-auto z-10 text-center relative px-4 flex flex-col items-center">
+          <div className="w-full max-w-5xl mx-auto z-10 text-center relative px-6 md:px-10 flex flex-col items-center">
             {/* Top Info */}
             <motion.p
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8 }}
-              className="font-bebas text-lg md:text-xl tracking-[0.2em] uppercase mb-6 md:mb-8 text-white opacity-60"
+              className="font-sans font-medium text-xs md:text-sm tracking-[0.12em] uppercase mb-6 md:mb-8 text-white opacity-80"
             >
               Freelance Data Scientist
             </motion.p>
 
-            <motion.h1 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[clamp(2.5rem,6.5vw,6rem)] font-bold leading-[0.9] text-center tracking-[-0.02em] text-white max-w-4xl text-balance font-syne"
-            >
-              I
-              <a href="#about" className="inline-flex items-center align-middle group/portrait mx-2 sm:mx-4">
-                <motion.div 
-                  initial={{ scale: 0, rotate: -15, opacity: 0 }}
-                  animate={{ scale: 1, rotate: 0, opacity: 1 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.5 }}
-                >
-                  <TiltCard>
-                    <div className="relative w-10 h-10 sm:w-16 sm:h-16 md:w-24 md:h-24 rounded-full overflow-hidden shadow-md group-hover/portrait:shadow-xl transition-shadow bg-about-bg">
-                      <img src={IMAGES.PORTRAIT} alt="Me" className="w-full h-full object-cover" />
-                    </div>
-                  </TiltCard>
-                </motion.div>
-              </a>
-              help startups turn data
-              <a href="#work" className="inline-flex items-center align-middle mx-2 sm:mx-4 group/tools">
-                  <motion.div
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.8, duration: 0.8 }}
-                  >
-                  <TiltCard>
-                    <div className="w-10 h-10 sm:w-16 sm:h-16 md:w-24 md:h-24 rounded-full overflow-hidden shadow-md bg-[#8D93D1]/20 flex items-center justify-center group-hover/tools:shadow-xl transition-shadow">
-                        <img 
-                          src={IMAGES.AI_TOOLS} 
-                          alt="AI Tools" 
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    </TiltCard>
-                  </motion.div>
-              </a>
-              into ML models, AI tools and insights
-            </motion.h1>
+            <HeroHeadline />
           </div>
         </section>
 
-        <section id="work" ref={workSectionRef} className="pt-16 pb-24 md:pt-24 md:pb-40 bg-background overflow-hidden relative">
-          <DitheredShape type="sphere" color="#5e21d6" className="-top-24 -right-24 md:w-[500px] md:h-[500px] opacity-10" animate={true} />
-          <CustomProjectCursor containerRef={workSectionRef} />
-          
-          <div className="max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
-            <div className="flex flex-col items-center justify-center gap-8 mb-16 md:mb-24 text-center">
-              <h2 className="text-4xl md:text-[80px] font-bold font-syne text-primary tracking-tighter">Selected Projects</h2>
+        <section id="work" className="work-section">
+          <DitheredShape type="sphere" color="#5e21d6" className="-top-24 -right-24 md:w-[360px] md:h-[360px] opacity-10" animate={true} />
+          <div className="work-section-inner">
+            <div className="work-section-heading">
+              <h2>Selected Projects</h2>
             </div>
-            <div className="flex flex-col border-t border-black">
-              {projects.map((project, index) => (
-                <ProjectRow key={project.id} project={project} index={index} />
-              ))}
-            </div>
+            <WorkIndex projects={projects} />
           </div>
         </section>
 
@@ -1242,7 +1095,7 @@ const HomePage = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="lg:col-span-5 flex justify-center lg:sticky lg:top-32"
+                className="lg:col-span-5 flex flex-col items-center lg:sticky lg:top-32"
               >
                 <div className="relative group">
                   <motion.div>
@@ -1265,9 +1118,10 @@ const HomePage = () => {
                     transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                     className="absolute -bottom-6 -right-6 bg-white border border-white/40 px-6 py-4 rounded-2xl shadow-lg z-20 hidden md:block"
                   >
-                    <span className="text-black font-black uppercase tracking-widest text-xs">Freelance Data Scientist</span>
+                    <span className="text-black font-semibold uppercase tracking-[0.1em] text-xs">Freelance Data Scientist</span>
                   </motion.div>
                 </div>
+                <FrelaPet />
               </motion.div>
 
               {/* Text Column */}
@@ -1278,10 +1132,10 @@ const HomePage = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.1 }}
-                    className="text-5xl md:text-8xl font-light text-white leading-[0.9] tracking-tighter"
+                    className="section-headline text-white"
                   >
                     Hello, I'm <br />
-                    <span className="font-elegant italic">Sandra.</span>
+                    <span className="font-sans italic">Sandra.</span>
                   </motion.h2>
                 </div>
 
@@ -1291,7 +1145,7 @@ const HomePage = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.2 }}
-                    className="text-[22px] md:text-[26px] text-white font-sans leading-relaxed tracking-tight"
+                    className="text-xl md:text-2xl text-white font-sans leading-relaxed tracking-tight"
                   >
                     I’m a Freelance Data Scientist who works with messy, real-world data and turns it into useful algorithms, insights and LLM tools.
                   </motion.p>
@@ -1309,8 +1163,8 @@ const HomePage = () => {
                     
                     <div className="grid grid-cols-2 gap-8 pt-8 border-t border-white/20">
                       <div>
-                        <span className="block text-[32px] font-light text-white tracking-tighter">5+</span>
-                        <span className="block text-xs font-bold uppercase tracking-widest text-white/60">Years Experience</span>
+                        <span className="block text-[32px] font-normal text-white tracking-tighter">5+</span>
+                        <span className="block text-xs font-semibold uppercase tracking-[0.1em] text-white/60">Years Experience</span>
                       </div>
                     </div>
                   </motion.div>
@@ -1322,7 +1176,7 @@ const HomePage = () => {
                     transition={{ delay: 0.4 }}
                     className="pt-4"
                   >
-                    <a href="#contact" className="group inline-flex items-center gap-4 text-white font-black uppercase text-sm tracking-widest hover:gap-6 transition-all">
+                    <a href="#contact" className="group inline-flex items-center gap-4 text-white font-semibold uppercase text-sm tracking-[0.1em] hover:gap-6 transition-all">
                       Work with me <ArrowRight className="w-5 h-5" />
                     </a>
                   </motion.div>
@@ -1349,10 +1203,10 @@ const HomePage = () => {
               <div className="inline-flex items-center justify-center p-3 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 mb-4">
                 <MessageSquare className="w-8 h-8 text-white" />
               </div>
-              <h2 className="text-5xl md:text-9xl font-light text-white leading-[0.8] tracking-tighter">
+              <h2 className="section-headline contact-headline text-white">
                 Let's work together!
               </h2>
-              <p className="text-xl md:text-2xl text-white/70 max-w-2xl mx-auto font-sans font-light tracking-tight">
+              <p className="text-xl md:text-2xl text-white/70 max-w-2xl mx-auto font-sans font-normal tracking-tight">
                 Reach out to discuss your data or AI challenges.
               </p>
             </motion.div>
@@ -1362,7 +1216,7 @@ const HomePage = () => {
                 whileHover={{ scale: 1.05, y: -5 }}
                 whileTap={{ scale: 0.95 }}
                 href="mailto:machonsm@gmail.com" 
-                className="group relative flex items-center gap-4 bg-white text-black px-10 py-6 rounded-full font-black uppercase text-sm tracking-[0.2em] shadow-xl hover:shadow-[#8D93D1]/20 transition-all"
+                className="group relative flex items-center gap-4 bg-white text-black px-10 py-6 rounded-full font-semibold uppercase text-sm tracking-[0.12em] shadow-xl hover:shadow-[#8D93D1]/20 transition-all"
               >
                 <div className="w-8 h-8 bg-black/5 rounded-full flex items-center justify-center group-hover:bg-[#8D93D1] group-hover:text-black transition-colors">
                   <Mail className="w-4 h-4" />
@@ -1376,7 +1230,7 @@ const HomePage = () => {
                 href="https://www.linkedin.com/in/sandra-machon/" 
                 target="_blank" 
                 rel="noreferrer" 
-                className="group flex items-center gap-4 bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md text-white px-10 py-6 rounded-full font-black uppercase text-sm tracking-[0.2em] transition-all"
+                className="group flex items-center gap-4 bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md text-white px-10 py-6 rounded-full font-semibold uppercase text-sm tracking-[0.12em] transition-all"
               >
                 <div className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center group-hover:bg-[#8D93D1] group-hover:text-black transition-colors">
                   <Linkedin className="w-4 h-4" />
@@ -1393,7 +1247,7 @@ const HomePage = () => {
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-12 mb-12">
             <div className="flex flex-col items-center md:items-start gap-4">
-              <div className="font-bebas text-4xl tracking-wider text-primary uppercase">Sandra Machon</div>
+              <div className="font-sans font-medium text-2xl md:text-3xl tracking-tight text-primary">Sandra Machon</div>
             </div>
             
             <div className="flex flex-col items-center md:items-end gap-12">
@@ -1407,7 +1261,7 @@ const HomePage = () => {
                     <div className="w-14 h-14 rounded-full border border-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all duration-500 group-hover:scale-110">
                       <Mail className="w-6 h-6 stroke-[1.5]" />
                     </div>
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-primary font-syne font-bold">Email</span>
+                    <span className="text-[11px] uppercase tracking-[0.12em] text-primary font-sans font-semibold">Email</span>
                   </a>
                   
                   <a 
@@ -1420,7 +1274,7 @@ const HomePage = () => {
                     <div className="w-14 h-14 rounded-full border border-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all duration-500 group-hover:scale-110">
                       <Linkedin className="w-6 h-6 stroke-[1.5]" />
                     </div>
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-primary font-syne font-bold">LinkedIn</span>
+                    <span className="text-[11px] uppercase tracking-[0.12em] text-primary font-sans font-semibold">LinkedIn</span>
                   </a>
                   
                   <a 
@@ -1433,7 +1287,7 @@ const HomePage = () => {
                     <div className="w-14 h-14 rounded-full border border-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all duration-500 group-hover:scale-110">
                       <Feather className="w-6 h-6 stroke-[1.5]" />
                     </div>
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-primary font-syne font-bold">Medium</span>
+                    <span className="text-[11px] uppercase tracking-[0.12em] text-primary font-sans font-semibold">Medium</span>
                   </a>
                 </div>
               </div>
@@ -1441,13 +1295,13 @@ const HomePage = () => {
           </div>
           
           <div className="pt-8 border-t border-primary/5 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="text-[10px] uppercase tracking-[0.3em] text-primary/40 font-syne font-bold">
+            <div className="text-[11px] uppercase tracking-[0.12em] text-primary/40 font-sans font-semibold">
               © {new Date().getFullYear()} Sandra Machon — All rights reserved.
             </div>
             <div className="flex items-center gap-8">
               <button 
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="text-[10px] uppercase tracking-[0.3em] text-primary/40 hover:text-primary transition-all font-syne font-bold cursor-pointer group"
+                className="text-[11px] uppercase tracking-[0.12em] text-primary/40 hover:text-primary transition-all font-sans font-semibold cursor-pointer group"
               >
                 <span className="group-hover:mr-2 transition-all">Back to top</span> ↑
               </button>
