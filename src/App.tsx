@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route, Link, useParams, useNavigate, useLocation
 import gsap from 'gsap';
 import LiquidGradient from './components/LiquidGradient';
 import portraitImage from './assets/images/regenerated_image_1778511595814.png';
-import aboutPortraitImage from './assets/images/regenerated_image_1778509068409.png';
+import aboutPortraitImage from './assets/images/sandra-machon-portrait.jpg';
 import aiToolsHeroImage from './assets/images/regenerated_image_1781797455425.jpg';
 import batteryPredictiveImage from './assets/images/pump.png';
 import batteryPredictiveLandscapeImage from './assets/images/smart_pump_landscape_1781769349520.jpg';
@@ -17,6 +17,7 @@ import sentimentAnalysisImage from './assets/images/06.jpg';
 import deviceUsageDashboardHoverImage from './assets/images/07.jpg';
 import psychologyNeuroscienceHoverImage from './assets/images/08.jpg';
 import femtechHeroImage from './assets/images/regenerated_image_1781856008959.webp';
+import pcosLifestyleImage from './assets/images/pcos-lifestyle-wellness.jpg';
 
 const IMAGES = {
   PORTRAIT: portraitImage,
@@ -38,10 +39,27 @@ const IMAGES = {
   PROJECT_7_HOVER: deviceUsageDashboardHoverImage,
   PROJECT_8: "https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&q=80&w=1200",
   PROJECT_8_HOVER: psychologyNeuroscienceHoverImage,
-  FEMTECH: femtechHeroImage
+  FEMTECH: femtechHeroImage,
+  PCOS_LIFESTYLE: pcosLifestyleImage
 };
 
 const projects = [
+  {
+    id: "clinical-rag-pcos",
+    title: "Clinical RAG System for Personalised PCOS Lifestyle Planning",
+    category: "RAG, LLMs, Women's Health",
+    description: "An evidence-grounded AI system that transforms patient health data into personalised, clinician-reviewed 12-week PCOS lifestyle plans.",
+    overview: "I designed and built an AI system that transforms questionnaires, laboratory results, and wearable data into personalised 12-week lifestyle plans for women with PCOS.\n\nThe core challenge was not simply generating health recommendations, but creating a plan that was genuinely personalised to the individual patient while remaining grounded in scientific evidence and suitable for clinician review. The system needed to reason across different types of patient data, distinguish between areas that required intervention and areas that were already strong, and adapt nutrition, activity, sleep, and wellbeing recommendations accordingly.\n\nA second design goal was to minimise LLM cost per user. Instead of sending the entire clinical knowledge base to a large language model, the system uses local retrieval and reranking to select only the most relevant evidence before generation. Local Qwen embeddings are used for semantic retrieval, with a local reranking stage further narrowing the context passed to the LLM.\n\nThe resulting pipeline combines structured patient-data processing, RAG, evidence provenance, deterministic calculations, and multi-stage LLM review. Scientific claims are linked to retrieved evidence, while practical AI-generated suggestions are kept distinct and remain subject to clinician approval.",
+    problem: "Build a health plan that feels truly individual rather than template-generated, while keeping scientific claims traceable and reducing the amount of expensive LLM context required for every patient.\n\nThe system needed to reason across questionnaire responses, laboratory results, and wearable signals without over-intervening in areas that were already strong. It also needed to preserve a clear boundary between evidence-backed clinical claims and practical AI-generated suggestions requiring clinician approval.",
+    myRole: "AI / RAG Engineer\n\nI designed and built the end-to-end system, including:\n\n- Patient-data normalisation across questionnaires, laboratory results, and wearable data\n\n- Local semantic retrieval using Qwen embeddings\n\n- Vector search and reranking over a curated clinical knowledge base\n\n- Retrieval-context optimisation to reduce LLM token usage and cost per generated plan\n\n- A multi-stage LLM workflow for patient-data review, plan generation, and editorial review\n\n- Personalised nutrition targets and example meals\n\n- Evidence provenance and validation for scientific claims\n\n- A human-in-the-loop workflow with clinician review before patient delivery\n\n- Automated patient-friendly PDF generation\n\n- Standalone local application packaging",
+    approach: "Patient data from multiple sources is normalised into a structured profile, then used to retrieve a small set of relevant evidence using local embedding and reranking models. The LLM receives only patient-specific context and selected evidence, allowing the system to generate detailed personalised plans while keeping token usage and per-user inference cost under control.\n\nLocal Qwen embeddings support semantic retrieval from the curated clinical knowledge base. A local reranking stage then narrows the retrieved material further before it reaches Claude, reducing unnecessary context and improving the relevance of the evidence used during generation.\n\nThe workflow combines deterministic calculations with multi-stage LLM review. Scientific claims retain links to their supporting evidence, while practical AI-generated suggestions are identified separately. The resulting draft remains subject to clinician review and approval before patient delivery.",
+    toolsUsed: ["Python", "Claude", "Qwen", "RAG", "Local Embeddings", "Vector Search", "Reranking", "ChromaDB", "Pydantic", "Streamlit"],
+    outcome: "The final prototype can process a complete synthetic patient case and generate an individualised 12-week lifestyle plan covering nutrition, physical activity, sleep, and mental wellbeing.\n\nIt retrieves and reranks relevant clinical evidence locally, limits the context sent to the LLM, links scientific claims to traceable sources, flags areas requiring clinician review, and produces an automated patient-friendly PDF. The result is a more cost-conscious and clinically reviewable workflow for delivering genuinely personalised PCOS lifestyle guidance.",
+    whatThisDemonstrates: "Demonstrates my capability to build safety-conscious, cost-aware clinical RAG systems using local retrieval, structured validation, evidence provenance, and human oversight.",
+    image: IMAGES.PCOS_LIFESTYLE,
+    hoverImage: IMAGES.PCOS_LIFESTYLE,
+    bgColor: "bg-[#FCEEF4]"
+  },
   {
     id: "battery-life-prediction",
     title: "Battery Life Prediction",
@@ -1173,7 +1191,7 @@ const HomePage = () => {
                   </TiltCard>
                 </motion.div>
               </a>
-              help startups and product teams turn data
+              help startups turn data
               <a href="#work" className="inline-flex items-center align-middle mx-2 sm:mx-4 group/tools">
                   <motion.div
                     initial={{ scale: 0, opacity: 0 }}
@@ -1191,7 +1209,7 @@ const HomePage = () => {
                     </TiltCard>
                   </motion.div>
               </a>
-              into ML models, AI tools, and insights
+              into ML models, AI tools and insights
             </motion.h1>
           </div>
         </section>
