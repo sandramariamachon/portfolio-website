@@ -5,20 +5,20 @@ import { BrowserRouter, Routes, Route, Link, useParams, useNavigate, useLocation
 import LiquidGradient from './components/LiquidGradient';
 import WorkIndex from './components/WorkIndex';
 import FrelaPet from './components/FrelaPet';
-import portraitImage from './assets/images/regenerated_image_1778511595814.png';
+import portraitImage from './assets/images/optimised/hero-portrait.webp';
 import aboutPortraitImage from './assets/images/sandra-machon-portrait.jpg';
-import aiToolsHeroImage from './assets/images/regenerated_image_1781797455425.jpg';
-import batteryPredictiveImage from './assets/images/pump.png';
+import aiToolsHeroImage from './assets/images/optimised/hero-work.webp';
+import batteryPredictiveImage from './assets/images/optimised/work-battery.webp';
 import batteryPredictiveLandscapeImage from './assets/images/smart_pump_landscape_1781769349520.jpg';
-import milkBagsImage from './assets/images/elvie-breastfeeding-elvie-breast-milk-storage-bags-pack-of-100-1125072807_1200x.webp';
-import brandCulturalImage from './assets/images/images.jpeg';
-import userBehaviorHoverImage from './assets/images/04.png';
-import reviewsChatbotHoverImage from './assets/images/05.jpg';
-import sentimentAnalysisImage from './assets/images/06.jpg';
-import deviceUsageDashboardHoverImage from './assets/images/07.jpg';
-import psychologyNeuroscienceHoverImage from './assets/images/08.jpg';
+import milkBagsImage from './assets/images/optimised/work-ocr.webp';
+import brandCulturalImage from './assets/images/optimised/work-cultural-index.webp';
+import userBehaviorHoverImage from './assets/images/optimised/work-segmentation.webp';
+import reviewsChatbotHoverImage from './assets/images/optimised/work-chatbot.webp';
+import sentimentAnalysisImage from './assets/images/optimised/work-sentiment.webp';
+import deviceUsageDashboardHoverImage from './assets/images/optimised/work-dashboard.webp';
+import psychologyNeuroscienceHoverImage from './assets/images/optimised/work-research.webp';
 import femtechHeroImage from './assets/images/regenerated_image_1781856008959.webp';
-import pcosLifestyleImage from './assets/images/pcos-lifestyle-wellness.jpg';
+import pcosLifestyleImage from './assets/images/optimised/work-pcos.webp';
 
 const IMAGES = {
   PORTRAIT: portraitImage,
@@ -928,11 +928,11 @@ const HeroHeadline = () => {
       >
         I{' '}
         <a href="#about" className="hero-inline-media hero-portrait" aria-label="About Sandra">
-          <img src={IMAGES.PORTRAIT} alt="" width="160" height="160" />
+          <img src={IMAGES.PORTRAIT} alt="" width="160" height="160" fetchPriority="high" decoding="async" />
         </a>{' '}
         help startups turn data{' '}
         <a href="#work" className="hero-inline-media hero-project-preview" aria-label="Explore my projects">
-          <img src={IMAGES.AI_TOOLS} alt="" width="240" height="160" />
+          <img src={IMAGES.AI_TOOLS} alt="" width="240" height="160" fetchPriority="high" decoding="async" />
         </a>{' '}
         into{' '}
         <span className="sr-only">AI tools, ML models, actionable insights, dashboards and working prototypes</span>
@@ -1107,6 +1107,8 @@ const HomePage = () => {
                         <img 
                           src={IMAGES.ABOUT_PORTRAIT} 
                           alt="Sandra Machon" 
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover" 
                         />
                       </motion.div>

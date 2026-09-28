@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
-import { motion, useMotionValue, useReducedMotion, useSpring } from 'motion/react';
+import { motion, useInView, useMotionValue, useReducedMotion, useSpring } from 'motion/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 
 interface WorkProject {
@@ -19,6 +19,8 @@ export default function WorkIndex({ projects }: { projects: WorkProject[] }) {
   const [pointerPreview, setPointerPreview] = useState(false);
   const lastPointer = useRef('mouse');
   const keyboardPreview = useRef(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const nearViewport = useInView(panelRef, { once: true, margin: '120px' });
   const reducedMotion = useReducedMotion();
   const previewX = useMotionValue(0);
   const previewY = useMotionValue(0);
@@ -26,6 +28,22 @@ export default function WorkIndex({ projects }: { projects: WorkProject[] }) {
   const cursorY = useMotionValue(0);
   const smoothX = useSpring(previewX, { stiffness: 350, damping: 36 });
   const smoothY = useSpring(previewY, { stiffness: 350, damping: 36 });
+
+  useEffect(() => {
+    if (!nearViewport) return;
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    if (connection?.saveData) return;
+    // Warm the small previews near the work section, not on initial hero load.
+    // Low priority lets visible images take precedence over speculative work.
+    const sources = new Set(projects.map(project => project.hoverImage || project.image));
+    sources.forEach(src => {
+      const image = new Image();
+      image.decoding = 'async';
+      image.fetchPriority = 'low';
+      image.src = src;
+      void image.decode().catch(() => { /* Normal image loading can retry on hover. */ });
+    });
+  }, [nearViewport, projects]);
 
   const closePreview = () => {
     keyboardPreview.current = false;
@@ -69,7 +87,7 @@ export default function WorkIndex({ projects }: { projects: WorkProject[] }) {
 
   return (
     <>
-      <div className="work-index-panel">
+      <div ref={panelRef} className="work-index-panel">
         <ol className="work-index-list" onPointerLeave={closePreview}>
           {projects.map((project, index) => (
             <motion.li
@@ -118,7 +136,7 @@ export default function WorkIndex({ projects }: { projects: WorkProject[] }) {
               </Link>
               {touchProject === project.id && (
                 <div className="work-inline-preview">
-                  <img src={project.hoverImage || project.image} alt="" />
+                  <img src={project.hoverImage || project.image} alt="" width="640" height="480" decoding="async" />
                   <p>{project.description}</p>
                   <Link to={`/project/${project.id}`}>View project <ArrowUpRight size={16} aria-hidden="true" /></Link>
                 </div>
@@ -130,7 +148,7 @@ export default function WorkIndex({ projects }: { projects: WorkProject[] }) {
       {preview && createPortal(
         <div aria-hidden="true" className="work-preview-layer">
           <motion.div className="work-floating-preview" style={{ x: reducedMotion ? previewX : smoothX, y: reducedMotion ? previewY : smoothY }}>
-            <img key={preview.id} src={preview.hoverImage || preview.image} alt="" />
+            <img key={preview.id} src={preview.hoverImage || preview.image} alt="" width="640" height="480" decoding="async" />
           </motion.div>
           {pointerPreview && <motion.div className="work-view-cursor" style={{ x: cursorX, y: cursorY }}>View</motion.div>}
         </div>, document.body
