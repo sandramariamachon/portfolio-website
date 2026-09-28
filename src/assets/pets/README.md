@@ -13,6 +13,17 @@ Performance: pointer samples are batched into one display-frame update, and rest
 
 Slow movement: the running pose has a 600 ms idle grace period (position still stops immediately), followed by sleep at two seconds. Facing changes use six pixels of accumulated travel and a ten-degree angular margin to avoid twitching at direction boundaries. Deliberate turns and wake-up remain responsive.
 
+Touch interaction: tap the docked Frela to start, then drag the floating Frela to
+guide her with a finger (or pen). Pointer capture keeps the gesture active outside
+her small hit area. Only that 80px handle disables browser panning; swipes and
+pinch gestures elsewhere still work normally. She follows above the finger at
+the same capped pace as desktop, rests on release, and sleeps after two seconds.
+Tap Frela, the docked button or the fixed Done button to finish. Ordinary page
+taps do not stop a touch walk. A completed drag does not count as a stop tap.
+The touch instructions sit above the safe-area inset, and the follower stays
+above those controls. Height changes from browser chrome keep her in bounds;
+rotation, tab changes and Escape end the walk. Desktop behaviour is unchanged.
+
 ## Background extraction prompt
 
 Use case: background-extraction.

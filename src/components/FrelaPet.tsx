@@ -8,12 +8,19 @@ export default function FrelaPet() {
   const [running, setRunning] = useState(false);
   const [sleeping, setSleeping] = useState(false);
   const [direction, setDirection] = useState<FrelaDirection>('s');
+  const [touchMode, setTouchMode] = useState(() => window.matchMedia('(pointer: coarse)').matches);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const touchHandleRef = useRef<HTMLButtonElement>(null);
+  const touchControlsRef = useRef<HTMLDivElement>(null);
+  const touchDragged = useRef(false);
   const startingPointer = useRef({ x: 0, y: 0 });
   const tooltipId = useId();
+  const touchHelpId = useId();
   const reducedMotion = useReducedMotion();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
+
+  const stopWalk = () => { setFollowing(false); setRunning(false); setSleeping(false); };
 
   useEffect(() => {
     if (!following) return;
@@ -28,8 +35,16 @@ export default function FrelaPet() {
     let headingX = 0;
     let headingY = 0;
     let moved = false;
+    let activeTouchPointer: number | null = null;
+    let touchTravel = 0;
+    const touchHandle = touchHandleRef.current;
+    const viewportWidth = window.innerWidth;
     const maxX = Math.max(8, window.innerWidth - 88);
-    const maxY = Math.max(8, window.innerHeight - 88);
+    const verticalLimit = () => Math.max(8, touchMode && touchControlsRef.current
+      ? touchControlsRef.current.getBoundingClientRect().top - 88
+      : window.innerHeight - 88);
+    let maxY = verticalLimit();
+    if (touchMode) { petY = Math.min(petY, maxY); y.set(petY); }
     const stop = () => { setFollowing(false); setRunning(false); setSleeping(false); };
     const armIdleTimers = () => {
       window.clearTimeout(restTimer);
@@ -57,11 +72,17 @@ export default function FrelaPet() {
       armIdleTimers();
     };
     const move = (event: PointerEvent) => {
+      if (touchMode ? event.pointerId !== activeTouchPointer : event.pointerType !== 'mouse') return;
       const pointerDistance = Math.hypot(event.clientX - lastPointer.x, event.clientY - lastPointer.y);
       if (pointerDistance === 0) return;
+      if (touchMode) {
+        touchTravel += pointerDistance;
+        if (touchTravel > 4) touchDragged.current = true;
+      }
       lastPointer = { x: event.clientX, y: event.clientY };
-      const targetX = Math.max(8, Math.min(event.clientX + 20, maxX));
-      const targetY = Math.max(8, Math.min(event.clientY + 18, maxY));
+      // On touchscreens, stay above the finger so Frela remains visible.
+      const targetX = Math.max(8, Math.min(event.clientX + (touchMode ? -40 : 20), maxX));
+      const targetY = Math.max(8, Math.min(event.clientY + (touchMode ? -100 : 18), maxY));
       const dx = targetX - petX;
       const dy = targetY - petY;
       const distance = Math.hypot(dx, dy);
@@ -97,6 +118,34 @@ export default function FrelaPet() {
       // per display frame. Nothing polls or repaints when the pointer is idle.
       if (!animationFrame) animationFrame = window.requestAnimationFrame(commitMovement);
     };
+    const startTouch = (event: PointerEvent) => {
+      if (!event.isPrimary || activeTouchPointer !== null || event.button !== 0) return;
+      activeTouchPointer = event.pointerId;
+      touchTravel = 0;
+      touchDragged.current = false;
+      lastPointer = { x: event.clientX, y: event.clientY };
+      touchHandle?.setPointerCapture(event.pointerId);
+      setSleeping(false);
+      armIdleTimers();
+    };
+    const endTouch = (event: PointerEvent) => {
+      if (event.pointerId !== activeTouchPointer) return;
+      activeTouchPointer = null;
+      // Publish the last sample, then rest; lifting a finger does not end a walk.
+      if (animationFrame) { window.cancelAnimationFrame(animationFrame); commitMovement(); }
+      if (event.type === 'pointercancel' || event.type === 'lostpointercapture') touchDragged.current = true;
+      if (touchHandle?.hasPointerCapture(event.pointerId)) touchHandle.releasePointerCapture(event.pointerId);
+      setRunning(false);
+      armIdleTimers();
+    };
+    const resize = () => {
+      // Mobile browser chrome may resize the viewport while scrolling.
+      // Keep Frela in bounds; a rotation or desktop resize ends the walk.
+      if (!touchMode || window.innerWidth !== viewportWidth) { stop(); return; }
+      maxY = verticalLimit();
+      petY = Math.max(8, Math.min(petY, maxY));
+      y.set(petY);
+    };
     const visibility = () => {
       if (document.hidden) stop();
     };
@@ -105,23 +154,37 @@ export default function FrelaPet() {
       if (event.key === 'Escape') { stop(); buttonRef.current?.focus({ preventScroll: true }); }
     };
     window.addEventListener('pointermove', move, { passive: true });
-    window.addEventListener('click', stop);
+    if (touchMode) {
+      touchHandle?.addEventListener('pointerdown', startTouch);
+      touchHandle?.addEventListener('pointerup', endTouch);
+      touchHandle?.addEventListener('pointercancel', endTouch);
+      touchHandle?.addEventListener('lostpointercapture', endTouch);
+    } else {
+      window.addEventListener('click', stop);
+    }
     window.addEventListener('keydown', key);
     window.addEventListener('blur', stop);
-    window.addEventListener('resize', stop);
+    window.addEventListener('resize', resize);
     document.addEventListener('visibilitychange', visibility);
     return () => {
       window.cancelAnimationFrame(animationFrame);
       window.clearTimeout(restTimer);
       window.clearTimeout(sleepTimer);
+      touchHandle?.removeEventListener('pointerdown', startTouch);
+      touchHandle?.removeEventListener('pointerup', endTouch);
+      touchHandle?.removeEventListener('pointercancel', endTouch);
+      touchHandle?.removeEventListener('lostpointercapture', endTouch);
+      if (activeTouchPointer !== null && touchHandle?.hasPointerCapture(activeTouchPointer)) {
+        touchHandle.releasePointerCapture(activeTouchPointer);
+      }
       window.removeEventListener('pointermove', move);
       window.removeEventListener('click', stop);
       window.removeEventListener('keydown', key);
       window.removeEventListener('blur', stop);
-      window.removeEventListener('resize', stop);
+      window.removeEventListener('resize', resize);
       document.removeEventListener('visibilitychange', visibility);
     };
-  }, [following, reducedMotion, x, y]);
+  }, [following, reducedMotion, touchMode, x, y]);
 
   return (
     <div className="frela-home">
@@ -129,12 +192,15 @@ export default function FrelaPet() {
         ref={buttonRef}
         type="button"
         className="frela-button"
-        aria-label={following ? 'Bring Frela back' : 'Meet Frela, my fawn toy poodle. Click to let her follow your cursor'}
+        aria-label={following ? 'Bring Frela back' : touchMode
+          ? 'Meet Frela, my fawn toy poodle. Tap to take her for a walk'
+          : 'Meet Frela, my fawn toy poodle. Click to let her follow your cursor'}
         aria-describedby={following ? undefined : tooltipId}
         aria-pressed={following}
+        onPointerDown={event => { if (!following) setTouchMode(event.pointerType !== 'mouse'); }}
         onClick={event => {
           event.stopPropagation();
-          if (following) { setFollowing(false); setRunning(false); setSleeping(false); return; }
+          if (following) { stopWalk(); return; }
           const bounds = event.currentTarget.getBoundingClientRect();
           const startX = Math.max(8, Math.min(bounds.left, window.innerWidth - 88));
           const startY = Math.max(8, Math.min(bounds.top, window.innerHeight - 88));
@@ -143,6 +209,7 @@ export default function FrelaPet() {
             ? { x: bounds.left + bounds.width / 2, y: bounds.top + bounds.height / 2 }
             : { x: event.clientX, y: event.clientY };
           setSleeping(false);
+          touchDragged.current = false;
           setFollowing(true);
         }}
       >
@@ -152,13 +219,37 @@ export default function FrelaPet() {
       <div id={tooltipId} role="tooltip" aria-hidden={following || undefined} className={`frela-tooltip${following ? ' is-following' : ''}`}>
         <strong>I also have a dog called Frela.</strong>
         <span>She often accompanies me while I work!</span>
-        <span>Click to take her for a walk. She’ll follow your cursor!</span>
+        <span>{touchMode ? 'Tap to take her for a walk, then drag Frela with your finger!' : 'Click to take her for a walk. She’ll follow your cursor!'}</span>
       </div>
-      <span className="sr-only" role="status">{following ? 'Frela is following. Click anywhere or press Escape to stop.' : 'Frela is resting below my photo.'}</span>
+      <span className="sr-only" role="status">{following
+        ? touchMode ? 'Frela is ready. Drag her to guide her. Scroll elsewhere as usual. Tap Done to finish.' : 'Frela is following. Click anywhere or press Escape to stop.'
+        : 'Frela is resting below my photo.'}</span>
       {following && createPortal(
-        <motion.div className="frela-follower" aria-hidden="true" style={{ x, y }}>
-          <FrelaSprite running={running && !reducedMotion} sleeping={sleeping} direction={direction} />
-        </motion.div>, document.body
+        <>
+          <motion.div className="frela-follower" aria-hidden={touchMode ? undefined : true} style={{ x, y }}>
+            {touchMode ? (
+              <button
+                ref={touchHandleRef}
+                type="button"
+                className="frela-touch-handle"
+                aria-label="Drag Frela to walk, or tap her to stop"
+                aria-describedby={touchHelpId}
+                onClick={event => {
+                  event.stopPropagation();
+                  if (!touchDragged.current || event.detail === 0) stopWalk();
+                }}
+              >
+                <FrelaSprite running={running && !reducedMotion} sleeping={sleeping} direction={direction} />
+              </button>
+            ) : <FrelaSprite running={running && !reducedMotion} sleeping={sleeping} direction={direction} />}
+          </motion.div>
+          {touchMode && (
+            <div ref={touchControlsRef} className="frela-touch-controls">
+              <div id={touchHelpId}><strong>Drag Frela to guide her</strong><span>Scroll anywhere else as usual.</span></div>
+              <button type="button" onClick={stopWalk} aria-label="End Frela's walk">Done</button>
+            </div>
+          )}
+        </>, document.body
       )}
     </div>
   );

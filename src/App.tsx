@@ -977,7 +977,7 @@ const HomePage = () => {
       <GrainyOverlay />
       <header className="absolute top-0 left-0 w-full z-50 bg-transparent h-16 md:h-20">
         <div className="max-w-[1400px] w-full h-full mx-auto px-6 md:px-8 flex justify-between items-center relative">
-          <a href="#about" className="font-sans text-lg md:text-xl tracking-tight text-white shrink-0 font-medium group/name relative">
+          <a href="#about" className="font-sans text-xl md:text-2xl tracking-tight text-white shrink-0 font-medium uppercase group/name relative">
             Sandra Machon
             <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover/name:w-full"></span>
           </a>
