@@ -214,6 +214,7 @@
 .frela-follower { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 90; pointer-events: none; contain: layout paint; will-change: transform; }
 .frela-touch-handle { display: grid; place-items: center; width: 80px; height: 80px; padding: 0; border: 1px solid #ffffff80; border-radius: 50%; background: #ffffff26; touch-action: none; pointer-events: auto; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; cursor: grab; }
 .frela-touch-handle:active { cursor: grabbing; }
+.frela-touch-handle.is-picked-up { border-color: transparent; background: transparent; }
 .frela-touch-handle:focus-visible { outline: 2px solid #3b0764; outline-offset: -3px; }
 .frela-touch-controls { position: fixed; left: 50%; bottom: max(12px, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 91; display: flex; align-items: center; justify-content: space-between; gap: 12px; width: calc(100% - 32px); max-width: 360px; padding: 12px; border: 1px solid #3b07641a; border-radius: 20px; background: #fdf9f1; color: #3b0764; box-shadow: 0 6px 28px #3b076426; font: 12px/1.5 var(--font-sans); }
 .frela-touch-controls strong, .frela-touch-controls span { display: block; }

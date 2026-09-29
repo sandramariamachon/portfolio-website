@@ -23,6 +23,9 @@ taps do not stop a touch walk. A completed drag does not count as a stop tap.
 The touch instructions sit above the safe-area inset, and the follower stays
 above those controls. Height changes from browser chrome keep her in bounds;
 rotation, tab changes and Escape end the walk. Desktop behaviour is unchanged.
+The initial touch circle disappears on pickup and stays hidden for the rest of
+the walk, including while sleeping. Its invisible hit area and the bottom
+instructions remain available; a new walk shows the initial circle again.
 
 ## Background extraction prompt
 

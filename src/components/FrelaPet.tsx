@@ -9,6 +9,7 @@ export default function FrelaPet() {
   const [sleeping, setSleeping] = useState(false);
   const [direction, setDirection] = useState<FrelaDirection>('s');
   const [touchMode, setTouchMode] = useState(() => window.matchMedia('(pointer: coarse)').matches);
+  const [touchPickedUp, setTouchPickedUp] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const touchHandleRef = useRef<HTMLButtonElement>(null);
   const touchControlsRef = useRef<HTMLDivElement>(null);
@@ -120,6 +121,7 @@ export default function FrelaPet() {
     };
     const startTouch = (event: PointerEvent) => {
       if (!event.isPrimary || activeTouchPointer !== null || event.button !== 0) return;
+      setTouchPickedUp(true);
       activeTouchPointer = event.pointerId;
       touchTravel = 0;
       touchDragged.current = false;
@@ -210,6 +212,7 @@ export default function FrelaPet() {
             : { x: event.clientX, y: event.clientY };
           setSleeping(false);
           touchDragged.current = false;
+          setTouchPickedUp(false);
           setFollowing(true);
         }}
       >
@@ -231,7 +234,7 @@ export default function FrelaPet() {
               <button
                 ref={touchHandleRef}
                 type="button"
-                className="frela-touch-handle"
+                className={`frela-touch-handle${touchPickedUp ? ' is-picked-up' : ''}`}
                 aria-label="Drag Frela to walk, or tap her to stop"
                 aria-describedby={touchHelpId}
                 onClick={event => {
